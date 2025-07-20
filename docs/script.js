@@ -58,11 +58,17 @@ function calculate() {
     if (expression === 'Error') return;
     
     try {
-        // Use eval() to calculate the result of the expression string
-        // eval() is safe here because the input is controlled by our buttons
-        let result = eval(expression);
-        result = parseFloat(result.toPrecision(12));
-        expression = String(result);
+        const result = eval(expression);
+
+        // Check if the result is a number and not infinite
+        if (isNaN(result) || !isFinite(result)) {
+            expression = 'Error';
+        } else {
+            // Round the result to a safe number of decimal places (e.g., 10)
+            // This is the standard and correct way to fix floating-point issues.
+            const roundedResult = Math.round(result * 1e10) / 1e10;
+            expression = String(roundedResult);
+        }
     } catch (error) {
         // If the expression is invalid (e.g., "5+"), display an error
         expression = 'Error';
