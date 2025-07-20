@@ -60,7 +60,8 @@ function calculate() {
     try {
         // Use eval() to calculate the result of the expression string
         // eval() is safe here because the input is controlled by our buttons
-        const result = eval(expression);
+        let result = eval(expression);
+        result = parseFloat(result.toPrecision(12));
         expression = String(result);
     } catch (error) {
         // If the expression is invalid (e.g., "5+"), display an error
